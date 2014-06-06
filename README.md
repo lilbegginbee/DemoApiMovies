@@ -1,46 +1,77 @@
-DemoApiMovies
-=============
+ZendSkeletonApplication
+=======================
 
-Тестовое задание
+Introduction
+------------
+This is a simple, skeleton application using the ZF2 MVC layer and module
+systems. This application is meant to be used as a starting place for those
+looking to get their feet wet with ZF2.
 
-Необходимо реализовать REST-подобное API для покупки билетов в кино.
+Installation
+------------
 
-Существует несколько кинотеатров, в каждом которых по несколько залов. В них идёт несколько фильмов, некоторые фильмы в нескольких залах разных кинотеатров одновременно. У фильмов есть сеансы, основным свойством которых является время сеанса. Так же в каждом зале определённое количество мест.
+Using Composer (recommended)
+----------------------------
+The recommended way to get a working copy of this project is to clone the repository
+and use `composer` to install dependencies using the `create-project` command:
 
-Нужно пользователю дать возможность просмотреть расписание кинотеатра, с возможностью фильтрации по залу:
+    curl -s https://getcomposer.org/installer | php --
+    php composer.phar create-project -sdev --repository-url="https://packages.zendframework.com" zendframework/skeleton-application path/to/install
 
-GET /api/cinema/<название кинотеатра>/schedule[?hall=номер зала]
+Alternately, clone the repository and manually invoke `composer` using the shipped
+`composer.phar`:
 
-Также надо дать возможность просмотреть в каких кинотеатрах/залах идёт конкретный фильм:
+    cd my/project/dir
+    git clone git://github.com/zendframework/ZendSkeletonApplication.git
+    cd ZendSkeletonApplication
+    php composer.phar self-update
+    php composer.phar install
 
-GET /api/film/<название фильма>/schedule
+(The `self-update` directive is to ensure you have an up-to-date `composer.phar`
+available.)
 
-Затем надо проверить, какие места свободны на конкретный сеанс:
+Another alternative for downloading the project is to grab it via `curl`, and
+then pass it to `tar`:
 
-GET /api/session/<id сеанса>/places
+    cd my/project/dir
+    curl -#L https://github.com/zendframework/ZendSkeletonApplication/tarball/master | tar xz --strip-components=1
 
-И дать возможность купить билет:
+You would then invoke `composer` to install dependencies per the previous
+example.
 
-POST /api/tickets/buy?session=<id сеанса>&places=1,3,5,7
+Using Git submodules
+--------------------
+Alternatively, you can install using native git submodules:
 
-Результатом запроса должен быть уникальный код, характеризующий этот набор билетов
+    git clone git://github.com/zendframework/ZendSkeletonApplication.git --recursive
 
-И отменить покупку, но не раньше, чем за час до начала сеанса:
+Web Server Setup
+----------------
 
+### PHP CLI Server
 
-POST /api/tickets/reject/<уникальный код>
+The simplest way to get started if you are using PHP 5.4 or above is to start the internal PHP cli-server in the root directory:
 
-Улучшения, позволяющие комфортнее взаимодействовать с сервисом, оставляются на ваше усмотрение. Как и формат url и набор передаваемых параметров.
+    php -S 0.0.0.0:8080 -t public/ public/index.php
 
- 
-Выбор движка на ваш вкус. Kohana, f3, symfony, yii… Не важно.
+This will start the cli-server on port 8080, and bind it to all network
+interfaces.
 
-База данных mysql, postgresql, mongodb...
+**Note: ** The built-in CLI server is *for development only*.
 
-Нельзя использовать готовые решения из коробки.
+### Apache Setup
 
-Для тестирования предоставить ссылку на http://github.com или на http://bitbucket.org
+To setup apache, setup a virtual host to point to the public/ directory of the
+project and you should be ready to go! It should look something like below:
 
-В репозитории должен находиться дамп базы с предзаполненными данными либо скрипт, заполняющий базу случайными значениями.
-
-Будьте готовы обосновать свой выбор.
+    <VirtualHost *:80>
+        ServerName zf2-tutorial.localhost
+        DocumentRoot /path/to/zf2-tutorial/public
+        SetEnv APPLICATION_ENV "development"
+        <Directory /path/to/zf2-tutorial/public>
+            DirectoryIndex index.php
+            AllowOverride All
+            Order allow,deny
+            Allow from all
+        </Directory>
+    </VirtualHost>
