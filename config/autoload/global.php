@@ -10,7 +10,18 @@
  * control, so do not include passwords or other sensitive information in this
  * file.
  */
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', true);
 
 return array(
-    // ...
+    'site' => array(
+        'title' => 'demoApiMovies'
+    ),
+    'api' => array(
+        'hashids_salt' => 'Movies Salt'
+    ),
+    'view_manager' => array(
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+    )
 );

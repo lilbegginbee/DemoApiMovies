@@ -9,6 +9,12 @@
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.3.*"
+        "zendframework/zendframework": "2.3.*",
+        "hashids/hashids": "dev-master"
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*",
+        "phpunit/php-invoker": "*"
     }
 }
