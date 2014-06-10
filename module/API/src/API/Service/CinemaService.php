@@ -24,11 +24,20 @@ class CinemaService
         $this->cinemaTable = $cinemaTable;
     }
 
+    public function getAll()
+    {
+        $list = $this->cinemaTable->fetchAll();
+        $result = array();
+        foreach ($list as $cinema) {
+            $result[] = $cinema;
+        }
+        return $result;
+    }
+
     public function getSheduler($cinema, $hall = null)
     {
         $oCinema = $this->cinemaTable->getCinemaBySysname($cinema);
         var_dump($oCinema);
-
         return true;
     }
 }

@@ -40,7 +40,8 @@ return array(
                 'options' => array(
                     'route'    => '/api/cinema/',
                     'defaults' => array(
-                        'controller' => 'CinemaController'
+                        'controller' => 'CinemaController',
+                        'action'    =>  'list'
                     ),
                 ),
                 'may_terminate' => true,

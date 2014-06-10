@@ -17,8 +17,25 @@ class Module
     public function onBootstrap(MvcEvent $e)
     {
         $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager->attach('render', array($this, 'setLayoutTitle'));
+
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+    }
+
+    /**
+     * @param  \Zend\Mvc\MvcEvent $e The MvcEvent instance
+     * @return void
+     */
+    public function setLayoutTitle($e)
+    {
+        // @todo Как передать тайтл в headTitle, если логика конструирования тайтла находится в контроллерах?
+
+        $viewHelperManager = $e->getApplication()->getServiceManager()->get('viewHelperManager');
+        $headTitleHelper   = $viewHelperManager->get('headTitle');
+        $headTitleHelper->append('Demo');
+
     }
 
     public function getConfig()

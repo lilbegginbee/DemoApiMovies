@@ -9,9 +9,8 @@ namespace API\Model;
 
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\AbstractTableGateway;
 
-class CinemaTable extends AbstractTableGateway
+class CinemaTable extends CoreTable
 {
     protected $table ='cinema';
 

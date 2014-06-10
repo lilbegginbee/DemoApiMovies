@@ -9,13 +9,21 @@
 
 namespace Site\Controller;
 
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends ParentController
+class ParentController extends AbstractActionController
 {
-    public function indexAction()
+    protected $pageTitle;
+
+    protected function setTitle($title)
     {
-        $this->setTitle('Первая');
-        return new ViewModel();
+        $rootTitle = $this->getServiceLocator()->get('config')['site']['title'];
+        $this->pageTitle = $title . ' | ' . $rootTitle;
+    }
+
+    public function getTitle()
+    {
+        return $this->pageTitle;
     }
 }

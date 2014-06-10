@@ -34,6 +34,16 @@ class CinemaController extends ParentController
         return new JsonModel();
     }
 
+    /**
+     * Полный
+     * @return JsonModel
+     */
+    public function listAction()
+    {
+        $list = $this->cinemaService->getAll();
+        return new JsonModel(array('data' => $list));
+    }
+
     public function shedulerAction()
     {
         $cinema = $this->params()->fromRoute('cinema');
