@@ -8,7 +8,6 @@
 namespace API\Model;
 
 use Zend\Db\Adapter\Adapter;
-use Zend\Db\ResultSet\ResultSet;
 
 class CinemaTable extends CoreTable
 {
@@ -16,18 +15,26 @@ class CinemaTable extends CoreTable
 
     public function __construct(Adapter $adapter)
     {
-        $this->adapter = $adapter;
-        $this->resultSetPrototype = new ResultSet();
-        $this->resultSetPrototype->setArrayObjectPrototype(new Cinema());
-        $this->initialize();
+        parent::__construct($adapter, new Cinema());
     }
 
+    /**
+     * Все кинотеатры
+     * @return \Zend\Db\ResultSet\ResultSet
+     */
     public function fetchAll()
     {
         $resultSet = $this->select();
         return $resultSet;
     }
 
+    /**
+     * Конкретный кинотеатр.
+     * Для удобства обозрения URLов, id кинотеатра не используется, вместо него более понятный сиснейм.
+     * @param $sysname
+     * @return Cinema|null
+     * @throws Exception
+     */
     public function getCinemaBySysname($sysname)
     {
         $rowset = $this->select(array(

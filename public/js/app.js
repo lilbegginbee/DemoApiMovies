@@ -46,12 +46,14 @@ var App = {
          * @param cinema
          */
         sheduler: function (cinema) {
-            console.log(cinema);
             $.getJSON('/api/cinema/' + cinema + '/sheduler/', function(data) {
                 App.clean();
                 console.log(data);
             });
         }
+    },
+    ticket: {
+
     }
 }
 

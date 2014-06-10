@@ -16,6 +16,8 @@ use Zend\View\Model\JsonModel;
 use API\Controller\CinemaController;
 use API\Service\CinemaService;
 use API\Model\CinemaTable;
+use API\Model\SessionTable;
+use API\Model\MovieTable;
 
 class Module
 {
@@ -25,8 +27,8 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 0);
-        $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'), 0);
+        /*$eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 0);
+        $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'), 0);*/
     }
 
     public function onDispatchError($e)
@@ -97,8 +99,10 @@ class Module
             'factories' => array(
                 'CinemaService' => function($sm){
                       $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-                      $table     = new CinemaTable($dbAdapter);
-                      return new CinemaService($table);
+                      $cinemaTable  = new CinemaTable($dbAdapter);
+                      $sessionTable = new SessionTable($dbAdapter);
+                      $movieTable   = new MovieTable($dbAdapter);
+                      return new CinemaService($cinemaTable, $sessionTable, $movieTable);
                     },
             ),
         );

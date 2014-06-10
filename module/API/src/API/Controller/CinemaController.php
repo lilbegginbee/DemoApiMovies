@@ -35,7 +35,7 @@ class CinemaController extends ParentController
     }
 
     /**
-     * Полный
+     * Полный список кинотеатров
      * @return JsonModel
      */
     public function listAction()
@@ -44,13 +44,15 @@ class CinemaController extends ParentController
         return new JsonModel(array('data' => $list));
     }
 
+    /**
+     * Распиание кинотеатра
+     * @return JsonModel
+     */
     public function shedulerAction()
     {
         $cinema = $this->params()->fromRoute('cinema');
         $hall = $this->params()->fromRoute('hall', null);
-
         $sheduler = $this->cinemaService->getSheduler($cinema, $hall);
-
-        return new JsonModel(array('data' => array($sheduler)));
+        return new JsonModel(array('data' => $sheduler));
     }
 }

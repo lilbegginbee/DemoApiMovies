@@ -9,16 +9,20 @@
 namespace API\Model;
 
 use Zend\Db\TableGateway\AbstractTableGateway;
+use Zend\Db\ResultSet\ResultSet;
 
 class CoreTable extends AbstractTableGateway {
 
     /**
      * @var Zend\Db\Adapter\Adapter
      */
-    protected $dbAdapter;
+    protected $adapter;
 
-    public function __construct($dbAdapter)
+    public function __construct($adapter, $prototype)
     {
-        $this->dbAdapter = $dbAdapter;
+        $this->adapter = $adapter;
+        $this->resultSetPrototype = new ResultSet();
+        $this->resultSetPrototype->setArrayObjectPrototype($prototype);
+        $this->initialize();
     }
 }
