@@ -13,6 +13,10 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\JsonModel;
 
+use API\Controller\CinemaController;
+use API\Service\CinemaService;
+use API\Model\CinemaTable;
+
 class Module
 {
     public function onBootstrap(MvcEvent $e)
@@ -83,6 +87,33 @@ class Module
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
+            ),
+        );
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'CinemaService' => function($sm){
+                      $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                      $table     = new CinemaTable($dbAdapter);
+                      return new CinemaService($table);
+                    },
+            ),
+        );
+    }
+
+    public function getControllerConfig()
+    {
+        return array(
+            'factories' => array(
+                'CinemaController' => function ($sm) {
+                        $locator = $sm->getServiceLocator();
+                        $cinemaService = $locator->get('CinemaService');
+                        $controller = new CinemaController($cinemaService);
+                        return $controller;
+                    },
             ),
         );
     }

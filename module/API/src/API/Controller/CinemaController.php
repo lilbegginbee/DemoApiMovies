@@ -11,10 +11,24 @@ namespace API\Controller;
 
 use Zend\View\Model\JsonModel;
 use Zend\Debug;
-use Hashids\Hashids;
+use API\Service\CinemaService;
 
 class CinemaController extends ParentController
 {
+    /**
+     * @var CinemaService
+     */
+    protected $cinemaService;
+
+    /**
+     * @param $cinemaService CinemaService
+     */
+    public function __construct($cinemaService)
+    {
+        parent::__construct();
+        $this->cinemaService = $cinemaService;
+    }
+
     public function indexAction()
     {
         return new JsonModel();
@@ -24,6 +38,9 @@ class CinemaController extends ParentController
     {
         $cinema = $this->params()->fromRoute('cinema');
         $hall = $this->params()->fromRoute('hall', null);
-        return new JsonModel(array('data' => array()));
+
+        $sheduler = $this->cinemaService->getSheduler($cinema, $hall);
+
+        return new JsonModel(array('data' => array($sheduler)));
     }
 }

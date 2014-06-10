@@ -15,7 +15,7 @@ return array(
                 'options' => array(
                     'route'    => '/api/ticket/',
                     'defaults' => array(
-                        'controller' => 'Ticket'
+                        'controller' => 'TicketController'
                     ),
                 ),
                 'may_terminate' => true,
@@ -28,7 +28,7 @@ return array(
                                 'tickets' => '[0-9,]+',
                             ),
                             'defaults' => array(
-                                'controller' => 'Ticket',
+                                'controller' => 'TicketController',
                                 'action'     => 'buy',
                             ),
                         ),
@@ -40,7 +40,7 @@ return array(
                 'options' => array(
                     'route'    => '/api/cinema/',
                     'defaults' => array(
-                        'controller' => 'Cinema'
+                        'controller' => 'CinemaController'
                     ),
                 ),
                 'may_terminate' => true,
@@ -54,7 +54,6 @@ return array(
                                 'hall' => '[0-9]{1,2}',
                             ),
                             'defaults' => array(
-                                'controller' => 'Cinema',
                                 'action'     => 'sheduler',
                             ),
                         ),
@@ -71,6 +70,9 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+        'invokables' => array(
+           /* 'CinemaService' => 'API\Service\CinemaService' */
+        )
     ),
     'translator' => array(
         'locale' => 'en_US',
@@ -85,8 +87,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'API\Controller\Index' => 'API\Controller\IndexController',
-            'Cinema' => 'API\Controller\CinemaController',
-            'Ticket' => 'API\Controller\TicketController',
+            'TicketController' => 'API\Controller\TicketController',
         ),
     ),
     'view_manager' => array(

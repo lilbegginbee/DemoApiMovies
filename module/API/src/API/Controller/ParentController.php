@@ -14,5 +14,8 @@ use Zend\Mvc\Controller\AbstractRestfulController;
 
 class ParentController extends AbstractRestfulController
 {
+    public function __construct()
+    {
 
+    }
 }
