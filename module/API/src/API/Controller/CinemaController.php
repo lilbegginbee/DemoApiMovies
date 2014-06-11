@@ -23,7 +23,7 @@ class CinemaController extends ParentController
     /**
      * @param $cinemaService CinemaService
      */
-    public function __construct($cinemaService)
+    public function __construct(CinemaService $cinemaService)
     {
         parent::__construct();
         $this->cinemaService = $cinemaService;

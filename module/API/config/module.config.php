@@ -100,8 +100,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'API\Controller\Index' => 'API\Controller\IndexController',
-            'TicketController' => 'API\Controller\TicketController',
+            'API\Controller\Index' => 'API\Controller\IndexController'
         ),
     ),
     'view_manager' => array(

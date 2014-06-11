@@ -21,12 +21,12 @@ class SessionSeatTable extends CoreTable
     /**
      * Занятые места на сеанс
      * @param $id_session
-     * @return array
+     * @return SessionSeat[]
      */
-    public function getSeats($id_session)
+    public function getSeats($idSession)
     {
         $where = array(
-            'id_session = ?',  $id_session
+            'id_session' => $idSession
         );
         $rowset = $this->select($where);
 

@@ -41,7 +41,11 @@ class CinemaService
     protected $sessionSeatTable;
 
     /**
-     * @param $cinemaTable CinemaTable
+     * @param CinemaTable $cinemaTable
+     * @param SessionTable $sessionTable
+     * @param MovieTable $movieTable
+     * @param HallTable $hallTable
+     * @param SessionSeatTable $sessionSeatTable
      */
     public function __construct(
                         CinemaTable $cinemaTable,
@@ -126,10 +130,13 @@ class CinemaService
 
         // Отдельно выясняем какие места уже заняты
         $occupied = $this->sessionSeatTable->getSeats($idSession);
-
+        $occupiedSeats = array();
+        foreach ($occupied as $seat) {
+            $occupiedSeats[] = $seat->seat;
+        }
         return array(
             'seats' => $oHall->seats,
-            'occupied' => $occupied
+            'occupied' => $occupiedSeats /*iterator_to_array($occupied)*/
         );
     }
 }

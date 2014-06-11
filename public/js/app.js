@@ -101,6 +101,7 @@ var App = {
                 for (index=1; index < qty; index++) {
                     $item = $('<a/>')
                         .attr('href','#')
+                        .attr('id','seat'+index)
                         .attr('rel',index)
                         .addClass('hallSeat')
                         .text(index)
@@ -109,6 +110,9 @@ var App = {
                          */
                         .click(
                             function(){
+                                if ($(this).hasClass('occupied')) {
+                                    return false;
+                                }
                                 if (!$(this).hasClass('choosen')) {
 
                                     if (App.seats.length == App.seatsMax) {
@@ -132,6 +136,11 @@ var App = {
                             }
                         );
                     App.container.append($item);
+                }
+
+                // Рисуем занятые
+                for (index in data.occupied) {
+                    $('#seat' + data.occupied[index]).addClass('occupied disabled');
                 }
 
                 var $butBuy = $('<button/>')
@@ -180,6 +189,7 @@ var App = {
         buy: function() {
             $.getJSON('/api/ticket/buy/' + App.idSession + '/' + App.seats.join(','), function(data) {
                 //App.session.seats(App.session);
+                App.seats = new Array();
                 App.ticket.show(data);
             });
         },
@@ -188,6 +198,21 @@ var App = {
          */
         show: function(data) {
             App.clean();
+            App.container.append(
+                $('<a/>')
+                    .attr('href','#')
+                    .text('Купить ещё билетов')
+                    .click(
+                        function(){
+                            App.session.seats(App.idSession);
+                            return false;
+                        }
+                    )
+            );
+
+            App.container.append(
+                $('<div class="well">Ваш билет:<br/>№ '+data.code+'<br/>Места: ' + data.seats.join(',') + '</div>')
+            );
         }
     }
 }

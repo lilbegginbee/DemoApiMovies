@@ -10,13 +10,22 @@
 namespace API\Controller;
 
 use Zend\View\Model\JsonModel;
-use Hashids\Hashids;
+use API\Service\TicketService;
 
 class TicketController extends ParentController
 {
-    public function indexAction()
+    /**
+     * @var TicketService
+     */
+    protected $ticketService;
+
+    /**
+     * @param $ticketService TicketService
+     */
+    public function __construct(TicketService $ticketService)
     {
-        return new JsonModel();
+        parent::__construct();
+        $this->ticketService = $ticketService;
     }
 
     /**
@@ -27,30 +36,9 @@ class TicketController extends ParentController
     {
         $session = $this->params()->fromRoute('session');
         $seats = $this->params()->fromRoute('seats');
-        $seats = preg_split('|,|',$seats);
-        $seatsValid = array();
-        $removeEmptyCallback = function($item) {
-            $number = trim((int)$item);
-            return $number?true:false;
-        };
-        $seatsValid = array_filter($seats, $removeEmptyCallback );
-        if (!count($seatsValid)) {
-            throw new \Exception('Отсутствуют номера мест.');
-        }
 
-        // проверка свободности билетов
+        $this->ticketService->config = $this->getServiceLocator()->get('config');
 
-
-        $salt = $this->getServiceLocator()->get('config')['api']['hashids_salt'];
-        $hashids = new Hashids($salt);
-        $idSession = 1;
-        $hash = '';
-        // может я не понял, но в качестве аргумента - только набор аргументов. Массив нельзя, строку нельзя,
-        // наследоваться тоже нельзя так как Hashids::_encode() private.
-        eval( '$hash = $hashids->encrypt('.$idSession.', ' . implode(',',$seatsValid) . ');' );
-
-        // завершение покупки
-
-        return new JsonModel(array('hash' => $hash));
+        return new JsonModel( $this->ticketService->buy($session, $seats) );
     }
 }

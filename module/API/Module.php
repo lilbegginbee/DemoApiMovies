@@ -9,12 +9,15 @@
 
 namespace API;
 
+use API\Controller\TicketController;
+use API\Model\TicketTable;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\JsonModel;
 
 use API\Controller\CinemaController;
 use API\Service\CinemaService;
+use API\Service\TicketService;
 use API\Model\CinemaTable;
 use API\Model\SessionTable;
 use API\Model\MovieTable;
@@ -100,19 +103,28 @@ class Module
         return array(
             'factories' => array(
                 'CinemaService' => function($sm){
-                      $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-                      $cinemaTable      = new CinemaTable($dbAdapter);
-                      $sessionTable     = new SessionTable($dbAdapter);
-                      $movieTable       = new MovieTable($dbAdapter);
-                      $hallTable        = new HallTable($dbAdapter);
-                      $sessionSeatTable = new SessionSeatTable($dbAdapter);
-                      return new CinemaService(
+                        $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                        $cinemaTable      = new CinemaTable($dbAdapter);
+                        $sessionTable     = new SessionTable($dbAdapter);
+                        $movieTable       = new MovieTable($dbAdapter);
+                        $hallTable        = new HallTable($dbAdapter);
+                        $sessionSeatTable = new SessionSeatTable($dbAdapter);
+                        return new CinemaService(
                                         $cinemaTable,
                                         $sessionTable,
                                         $movieTable,
                                         $hallTable,
                                         $sessionSeatTable);
                     },
+                'TicketService' => function($sm){
+                         $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                         $sessionSeatTable  = new SessionSeatTable($dbAdapter);
+                         $ticketTable       = new TicketTable($dbAdapter);
+                         return new TicketService(
+                                         $ticketTable,
+                                         $sessionSeatTable);
+
+                    }
             ),
         );
     }
@@ -127,6 +139,12 @@ class Module
                         $controller = new CinemaController($cinemaService);
                         return $controller;
                     },
+                'TicketController' => function ($sm) {
+                        $locator = $sm->getServiceLocator();
+                        $ticketService = $locator->get('TicketService');
+                        $controller = new TicketController($ticketService);
+                        return $controller;
+                    }
             ),
         );
     }
