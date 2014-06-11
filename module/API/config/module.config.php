@@ -23,9 +23,10 @@ return array(
                     'buy' => array(
                         'type'    => 'segment',
                         'options' => array(
-                            'route'    => 'buy/:tickets',
+                            'route'    => 'buy/:session/:seats',
                             'constraints' => array(
-                                'tickets' => '[0-9,]+',
+                                'session' => '[0-9]{1,10}',
+                                'seats' => '[,0-9]+'
                             ),
                             'defaults' => array(
                                 'controller' => 'TicketController',
@@ -59,6 +60,18 @@ return array(
                             ),
                         ),
                     ),
+                    'session' => array(
+                        'type'      => 'segment',
+                        'options'   => array(
+                            'route'     => 'seats/:session',
+                            'constraints' => array(
+                                'session' => '[0-9]{1,10}',
+                            ),
+                            'defaults' => array(
+                                'action'     => 'session',
+                            ),
+                        )
+                    )
                 ),
             ),
         ),

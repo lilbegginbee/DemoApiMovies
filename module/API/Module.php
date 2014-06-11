@@ -18,6 +18,8 @@ use API\Service\CinemaService;
 use API\Model\CinemaTable;
 use API\Model\SessionTable;
 use API\Model\MovieTable;
+use API\Model\HallTable;
+use API\Model\SessionSeatTable;
 
 class Module
 {
@@ -99,10 +101,17 @@ class Module
             'factories' => array(
                 'CinemaService' => function($sm){
                       $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-                      $cinemaTable  = new CinemaTable($dbAdapter);
-                      $sessionTable = new SessionTable($dbAdapter);
-                      $movieTable   = new MovieTable($dbAdapter);
-                      return new CinemaService($cinemaTable, $sessionTable, $movieTable);
+                      $cinemaTable      = new CinemaTable($dbAdapter);
+                      $sessionTable     = new SessionTable($dbAdapter);
+                      $movieTable       = new MovieTable($dbAdapter);
+                      $hallTable        = new HallTable($dbAdapter);
+                      $sessionSeatTable = new SessionSeatTable($dbAdapter);
+                      return new CinemaService(
+                                        $cinemaTable,
+                                        $sessionTable,
+                                        $movieTable,
+                                        $hallTable,
+                                        $sessionSeatTable);
                     },
             ),
         );

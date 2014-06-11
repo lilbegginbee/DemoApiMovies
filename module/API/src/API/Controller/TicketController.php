@@ -19,11 +19,27 @@ class TicketController extends ParentController
         return new JsonModel();
     }
 
+    /**
+     * Покупка одного или нескольких билетов на сеанс
+     * @return JsonModel
+     */
     public function buyAction()
     {
-        $tickets = $this->params()->fromRoute('tickets');
-        $tickets = preg_split('|,|',$tickets);
+        $session = $this->params()->fromRoute('session');
+        $seats = $this->params()->fromRoute('seats');
+        $seats = preg_split('|,|',$seats);
+        $seatsValid = array();
+        $removeEmptyCallback = function($item) {
+            $number = trim((int)$item);
+            return $number?true:false;
+        };
+        $seatsValid = array_filter($seats, $removeEmptyCallback );
+        if (!count($seatsValid)) {
+            throw new \Exception('Отсутствуют номера мест.');
+        }
+
         // проверка свободности билетов
+
 
         $salt = $this->getServiceLocator()->get('config')['api']['hashids_salt'];
         $hashids = new Hashids($salt);
@@ -31,7 +47,7 @@ class TicketController extends ParentController
         $hash = '';
         // может я не понял, но в качестве аргумента - только набор аргументов. Массив нельзя, строку нельзя,
         // наследоваться тоже нельзя так как Hashids::_encode() private.
-        eval( '$hash = $hashids->encrypt('.$idSession.', ' . implode(',',$tickets) . ');' );
+        eval( '$hash = $hashids->encrypt('.$idSession.', ' . implode(',',$seatsValid) . ');' );
 
         // завершение покупки
 

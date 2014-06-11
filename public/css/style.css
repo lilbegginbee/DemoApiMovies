@@ -8,3 +8,21 @@ body {
     background-repeat: repeat-x;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
 }
+
+.hallSeat{
+    padding: 10px;
+    margin: 10px;
+    width: 50px;
+    text-align: center;
+    color: white;
+    display: inline-block;
+    background-color: #18BC9C;
+}
+.hallSeat:hover{
+    background: #0F7864;
+    text-decoration: none;
+    outline: none;
+}
+.hallSeat.choosen{
+    background-color: #2C3E50;
+}

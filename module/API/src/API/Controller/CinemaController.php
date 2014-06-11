@@ -45,7 +45,7 @@ class CinemaController extends ParentController
     }
 
     /**
-     * Распиание кинотеатра
+     * Расписание кинотеатра
      * @return JsonModel
      */
     public function shedulerAction()
@@ -54,5 +54,16 @@ class CinemaController extends ParentController
         $hall = $this->params()->fromRoute('hall', null);
         $sheduler = $this->cinemaService->getSheduler($cinema, $hall);
         return new JsonModel(array('data' => $sheduler));
+    }
+
+    /**
+     * Места на сеанс
+     * @return JsonModel
+     */
+    public function sessionAction()
+    {
+        $idSession = $this->params()->fromRoute('session');
+        $seats = $this->cinemaService->getSession($idSession);
+        return new JsonModel($seats);
     }
 }
