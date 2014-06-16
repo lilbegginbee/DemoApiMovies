@@ -2,10 +2,10 @@
 -- version 3.4.10.1deb1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jun 11, 2014 at 12:07 PM
--- Server version: 5.5.37
--- PHP Version: 5.5.12-2+deb.sury.org~precise+1
+-- Хост: localhost
+-- Время создания: Июн 16 2014 г., 14:53
+-- Версия сервера: 5.5.37
+-- Версия PHP: 5.5.12-2+deb.sury.org~precise+1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `demoapimovies`
+-- База данных: `demoapimovies`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cinema`
+-- Структура таблицы `cinema`
 --
 
 DROP TABLE IF EXISTS `cinema`;
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `cinema` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `cinema`
+-- Дамп данных таблицы `cinema`
 --
 
 INSERT INTO `cinema` (`id_cinema`, `sysname`, `title`, `description`) VALUES
@@ -46,7 +46,7 @@ INSERT INTO `cinema` (`id_cinema`, `sysname`, `title`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hall`
+-- Структура таблицы `hall`
 --
 
 DROP TABLE IF EXISTS `hall`;
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `hall` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `hall`
+-- Дамп данных таблицы `hall`
 --
 
 INSERT INTO `hall` (`id_hall`, `id_cinema`, `title`, `seats`) VALUES
@@ -70,7 +70,7 @@ INSERT INTO `hall` (`id_hall`, `id_cinema`, `title`, `seats`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `movie`
+-- Структура таблицы `movie`
 --
 
 DROP TABLE IF EXISTS `movie`;
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `movie` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `movie`
+-- Дамп данных таблицы `movie`
 --
 
 INSERT INTO `movie` (`id_movie`, `title`, `year`) VALUES
@@ -92,7 +92,7 @@ INSERT INTO `movie` (`id_movie`, `title`, `year`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `session`
+-- Структура таблицы `session`
 --
 
 DROP TABLE IF EXISTS `session`;
@@ -108,22 +108,22 @@ CREATE TABLE IF NOT EXISTS `session` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Dumping data for table `session`
+-- Дамп данных таблицы `session`
 --
 
 INSERT INTO `session` (`id_session`, `id_movie`, `id_cinema`, `id_hall`, `start_date`, `status`) VALUES
 (1, 1, 1, 1, '2014-06-08 18:00:00', 'waiting'),
 (2, 1, 2, 1, '2014-06-10 21:00:00', 'waiting'),
 (3, 2, 1, 2, '2014-06-11 19:00:00', 'waiting'),
-(4, 1, 1, 1, '2014-06-11 18:00:00', 'waiting'),
-(5, 1, 2, 1, '2014-06-11 21:00:00', 'waiting'),
-(6, 2, 1, 1, '2014-06-13 22:00:00', 'waiting'),
-(7, 2, 1, 2, '2014-06-12 23:00:00', 'waiting');
+(4, 1, 1, 1, '2014-06-16 18:00:00', 'waiting'),
+(5, 1, 2, 1, '2014-06-16 21:00:00', 'waiting'),
+(6, 2, 1, 1, '2014-06-16 22:00:00', 'waiting'),
+(7, 2, 1, 2, '2014-06-16 23:00:00', 'waiting');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `session_seat`
+-- Структура таблицы `session_seat`
 --
 
 DROP TABLE IF EXISTS `session_seat`;
@@ -134,44 +134,10 @@ CREATE TABLE IF NOT EXISTS `session_seat` (
   PRIMARY KEY (`id_session`,`seat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `session_seat`
---
-
-INSERT INTO `session_seat` (`id_session`, `seat`, `id_ticket`) VALUES
-(3, 5, 14),
-(3, 6, 14),
-(3, 9, 12),
-(3, 10, 12),
-(3, 23, 7),
-(3, 25, 13),
-(3, 26, 13),
-(3, 27, 13),
-(3, 28, 13),
-(3, 29, 13),
-(3, 30, 13),
-(4, 24, 5),
-(4, 25, 5),
-(4, 26, 5),
-(4, 54, 6),
-(4, 55, 6),
-(4, 89, 1),
-(4, 90, 1),
-(4, 97, 1),
-(5, 10, 10),
-(5, 11, 10),
-(5, 12, 10),
-(5, 13, 10),
-(5, 37, 9),
-(5, 38, 9),
-(5, 40, 8),
-(5, 41, 8),
-(5, 42, 8);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ticket`
+-- Структура таблицы `ticket`
 --
 
 DROP TABLE IF EXISTS `ticket`;
@@ -183,10 +149,10 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `status` enum('active','reject') NOT NULL,
   PRIMARY KEY (`id_ticket`),
   UNIQUE KEY `Code` (`code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
--- Dumping data for table `ticket`
+-- Дамп данных таблицы `ticket`
 --
 
 INSERT INTO `ticket` (`id_ticket`, `code`, `id_session`, `created`, `status`) VALUES
@@ -202,7 +168,8 @@ INSERT INTO `ticket` (`id_ticket`, `code`, `id_session`, `created`, `status`) VA
 (11, 'zjIxHdFrcXS0TZfA', 5, '2014-06-11 12:03:17', 'active'),
 (12, 'd1IJt5', 3, '2014-06-11 12:04:41', 'active'),
 (13, '4GIYcGS7IXU1h5', 3, '2014-06-11 12:04:47', 'active'),
-(14, 'zjIjCP', 3, '2014-06-11 12:05:01', 'active');
+(14, 'zjIjCP', 3, '2014-06-11 12:05:01', 'active'),
+(15, 'NGIRu4', 4, '2014-06-11 12:13:25', 'active');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
